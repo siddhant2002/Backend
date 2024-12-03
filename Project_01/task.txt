@@ -1,0 +1,13 @@
+REST API - JSON
+
+GET api/users -> list all users
+
+GET api/users/1 -> get details of user with id 1
+GET api/users/2 -> get details of user with id 2
+
+
+POST api/users -> Create new user
+
+PATCH api/users/1 -> update details of the user with id 1
+
+DELETE api/users/1 -> delete the details of the user with id 1
