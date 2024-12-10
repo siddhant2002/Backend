@@ -12,6 +12,8 @@ const urlRoute = require("./routes/url");
 
 const app = express();
 
+const userRoute = require("./routes/user");
+
 app.set("view engine", "ejs");
 
 app.set("views", path.resolve("./views"))
@@ -33,7 +35,10 @@ connect("mongodb://127.0.0.1:27017/short-url")
 
 app.use("/url", urlRoute);
 
+app.use("/user", userRoute);
+
 app.use("/", staticRoute);
+
 
 app.get("/url/:shortId", async (req, res) => {
     const shortId = req.params.shortId;
