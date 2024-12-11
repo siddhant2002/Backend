@@ -10,6 +10,10 @@ const URL = require("./models/url");
 
 const urlRoute = require("./routes/url");
 
+const cookieParser = require("cookie-parser");
+
+const { restrictToLoggedInUser , checkAuth } = require("./middlewares/auth");
+
 const app = express();
 
 const userRoute = require("./routes/user");
@@ -22,6 +26,8 @@ app.set("views", path.resolve("./views"))
 app.use(express.json());
 app.use(express.urlencoded( { extended: false }));
 
+app.use(cookieParser());
+
 connect("mongodb://127.0.0.1:27017/short-url")
 .then(() => console.log("Database connected"));
 
@@ -32,12 +38,11 @@ connect("mongodb://127.0.0.1:27017/short-url")
 //     });
 // });
 
-
-app.use("/url", urlRoute);
+app.use("/url", restrictToLoggedInUser, urlRoute);
 
 app.use("/user", userRoute);
 
-app.use("/", staticRoute);
+app.use("/", checkAuth, staticRoute);
 
 
 app.get("/url/:shortId", async (req, res) => {
@@ -54,7 +59,7 @@ app.get("/url/:shortId", async (req, res) => {
         },
     });
     res.redirect(entry.redirectURL);
-})
+});
 
 const PORT = 8000;
 

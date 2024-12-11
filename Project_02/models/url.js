@@ -14,7 +14,12 @@ const url = new mongoose.Schema({
         {
             timestamps: { type: Number },
         }
-    ]},
+    ],
+    createdBy: {
+        type: mongoose.SchemaTypes.ObjectId,
+        ref: "users",
+    },
+},
 { timestamps: true});
 
 const urlShort = mongoose.model("url", url);
